@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: int_web_analytics_with_customers
+    description: >
+      Each row represents a single web analytics event enriched with customer
+      attributes from the customer master table. Grain: one row per tracked
+      website event. Upstream: stg_web_analytics via customer_id and
+      stg_adventure_db__customers via customer_id. Used for customer behavior,
+      journey, and geographic analysis of web activity.
+    columns:
+      - name: session_id
+        description: >
+          Identifier for the browsing session that contains this event. Not a
+          primary key because a single session can include multiple event rows.
+          Use together with event_timestamp to reconstruct event order within a
+          customer visit.
+        tests:
+          - not_null
+      - name: customer_id
+        description: >
+          Identifier of the customer associated with the web event. Foreign key
+          to stg_adventure_db__customers.customer_id. This join brings in
+          customer demographic and account context for behavioral analysis.
+        tests:
+          - not_null

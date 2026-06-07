@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "BOA_DB"."DBT_DEV"."SHIP_METHOD";
+    -- dbt seed --
+    
+            insert into BOA_DB.dbt_dev.ship_method (ship_method_id, name, ship_base, ship_rate) values
+            (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+        
+
+;
+  

@@ -1,0 +1,236 @@
+dbt MCP Demo Output - 2026-04-20T20:51:07.403681
+============================================================
+
+[20:50:49] ============================================================
+[20:50:49] dbt MCP Server Demo
+[20:50:49] ============================================================
+[20:50:49] 
+[20:50:49] Step 1: Connecting to dbt MCP server...
+[20:50:49] Connected successfully!
+[20:50:49] 
+[20:50:49] Step 2: Listing available tools...
+[20:50:49]   - search_product_docs: Search the dbt product documentation at docs.getdbt.com for pages matching a query. Returns matching
+[20:50:49]   - get_product_doc_pages: Retrieve the Markdown content of one or more dbt documentation pages from docs.getdbt.com. Pass a li
+[20:50:49]   - build: The dbt build command will:
+
+- run models
+- test tests
+- snapshot snapshots
+- seed seeds
+
+In DAG ord
+[20:50:49]   - compile: dbt compile generates executable SQL from source model, test, and analysis files.
+
+The compile comma
+[20:50:49]   - docs: The docs command is responsible for generating your project's documentation website.
+
+[20:50:49]   - list: List the resources in the your dbt project.
+
+[20:50:49]   - parse: The dbt parse command parses and validates the contents of your dbt project. If your project contain
+[20:50:49]   - run: dbt run executes compiled sql model files against the current target database. dbt connects to the t
+[20:50:49]   - test: dbt test runs data tests defined on models, sources, snapshots, and seeds and unit tests defined on 
+[20:50:49]   - show: dbt show executes an arbitrary SQL statement against the database and returns the results. It is use
+[20:50:49]   - get_lineage_dev: get_lineage_dev
+
+<instructions>
+Retrieves the lineage of a specific dbt resource from the local deve
+[20:50:49]   - get_node_details_dev: Retrieves detailed information about a specific dbt node from the local development manifest using `
+[20:50:49] 
+[20:50:49] Step 3: Discovering dbt models...
+[20:50:53] adventure_works.staging.ecom.base.base_ecom__email_campaigns
+adventure_works.staging.ecom.base.base_ecom__email_mktg_new
+adventure_works.staging.ecom.base.base_ecom__sales_orders
+adventure_works.staging.external.base.base_external__chat_logs
+adventure_works.staging.external.base.base_external__order_details
+adventure_works.staging.external.base.base_external__orders
+adventure_works.intermediate.external.int_external__orders_formatted
+adventure_works.intermediate.int_sales_order_line_items
+adventure_works.intermediate.int_sales_order_with_customers
+adventure_works.intermediate.int_sales_orders_with_campaign
+adventure_works.intermediate.int_web_analytics_with_customers
+adventure_works.staging.adventure_db.stg_adventure_db__customers
+adventure_works.staging.adventure_db.stg_adventure_db__inventory
+adventure_works.staging.adventure_db.stg_adventure_db__product_vendors
+adventure_works.staging.adventure_db.stg_adventure_db__products
+adventure_works.staging.adventure_db.stg_adventure_db__vendors
+adventure_works.staging.ecom.stg_ecom__email_campaigns
+adventure_works.staging.ecom.stg_ecom__purchase_orders
+adventure_works.staging.ecom.stg_ecom__sales_orders
+adventure_works.staging.real_time.stg_real_time__chat_logs
+adventure_works.staging.web_analytics.stg_web_analytics
+
+[20:50:53] 
+[20:50:53] Step 4: Getting details for a specific model...
+[20:50:57] {
+  "unique_id": "model.adventure_works.stg_ecom__sales_orders",
+  "name": "stg_ecom__sales_orders",
+  "resource_type": "model",
+  "package_name": "adventure_works",
+  "original_file_path": "models-m1/staging/ecom/stg_ecom__sales_orders.sql",
+  "path": "staging/ecom/stg_ecom__sales_orders.sql",
+  "alias": "stg_ecom__sales_orders",
+  "description": "",
+  "columns": {},
+  "meta": {},
+  "tags": [],
+  "config": {
+    "enabled": true,
+    "alias": null,
+    "schema": null,
+    "database": null,
+    "tags": [],
+    "meta": {},
+    "group": null,
+    "materialized": "view",
+    "incremental_strategy": null,
+    "batch_size": null,
+    "lookback": 1,
+    "begin": null,
+    "persist_docs": {},
+    "post-hook": [],
+    "pre-hook": [],
+    "quoting": {},
+    "column_types": {},
+    "full_refresh": null,
+    "unique_key": null,
+    "on_schema_change": "ignore",
+    "on_configuration_change": "apply",
+    "grants": {},
+    "packages": [],
+    "docs": {
+      "show": true,
+      "node_color": null
+    },
+    "contract": {
+      "enforced": false,
+      "alias_types": true
+    },
+    "event_time": null,
+    "concurrent_batches": null,
+    "access": "protected",
+    "freshness": null
+  },
+  "depends_on": {
+    "macros": [],
+    "nodes": [
+      "model.adventure_works.base_ecom__sales_orders",
+      "seed.adventure_works.ship_method",
+      "model.adventure_works.int_external__orders_formatted"
+    ]
+  },
+  "patch_path": null,
+  "schema": "dbt_dev",
+  "database": "BOA_DB",
+  "relation_name": "BOA_DB.dbt_dev.stg_ecom__sales_orders",
+  "language": "sql",
+  "docs": {
+    "show": true,
+    "node_color": null
+  },
+  "group": null,
+  "access": "protected",
+  "version": null,
+  "latest_version": null,
+  "deprecation_date": null,
+  "contract": {
+    "enforced": false,
+    "alias_types": true,
+    "checksum": null
+  },
+  "constraints": [],
+  "primary_key": [],
+  "fqn": [
+    "adventure_works",
+    "staging",
+    "ecom",
+    "stg_ecom__sales_orders"
+  ],
+  "build_path": null,
+  "refs": [
+    {
+      "name": "base_ecom__sales_orders",
+      "package": null,
+      "version": null
+    },
+    {
+      "name": "ship_method",
+      "package": null,
+      "version": null
+    },
+    {
+      "name": "int_external__orders_formatted",
+      "package": null,
+      "version": null
+    }
+  ],
+  "sources": [],
+  "metrics": [],
+  "created_at": 1776739670.7874901,
+  "unrendered_config": {},
+  "tests": [
+    "adventure_works.relationships_stg_ecom__email_campaigns_order_id__sales_order_id__ref_stg_ecom__sales_orders_"
+  ]
+}
+[20:50:57] 
+[20:50:57] Step 5: Compiling SQL for a model...
+[20:51:03] OK
+[20:51:03] 
+[20:51:03] Step 6: Exploring model lineage...
+[20:51:07] {
+  "model_id": "model.adventure_works.stg_ecom__sales_orders",
+  "parents": [
+    {
+      "model_id": "model.adventure_works.base_ecom__sales_orders",
+      "parents": [
+        {
+          "model_id": "source.adventure_works.ecom_source.sales_order_raw",
+          "parents": []
+        }
+      ]
+    },
+    {
+      "model_id": "model.adventure_works.int_external__orders_formatted",
+      "parents": [
+        {
+          "model_id": "model.adventure_works.base_external__order_details",
+          "parents": []
+        },
+        {
+          "model_id": "model.adventure_works.base_external__orders",
+          "parents": []
+        }
+      ]
+    },
+    {
+      "model_id": "seed.adventure_works.ship_method",
+      "parents": []
+    }
+  ],
+  "children": [
+    {
+      "model_id": "model.adventure_works.int_sales_order_line_items",
+      "children": []
+    },
+    {
+      "model_id": "model.adventure_works.int_sales_order_with_customers",
+      "children": []
+    },
+    {
+      "model_id": "model.adventure_works.int_sales_orders_with_campaign",
+      "children": [
+        {
+          "model_id": "analysis.adventure_works.campaign_sales_analysis",
+          "children": []
+        }
+      ]
+    },
+    {
+      "model_id": "test.adventure_works.relationships_stg_ecom__email_campaigns_order_id__sales_order_id__ref_stg_ecom__sales_orders_.f681021adc",
+      "children": []
+    }
+  ]
+}
+[20:51:07] 
+[20:51:07] ============================================================
+[20:51:07] Demo complete!
+[20:51:07] ============================================================

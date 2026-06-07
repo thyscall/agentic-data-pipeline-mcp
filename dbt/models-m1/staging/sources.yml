@@ -1,0 +1,75 @@
+version: 2
+
+sources:
+  - name: adventure_db
+    database: is566
+    schema: adventure_prod_db
+    description: >
+      Operational Adventure DB source containing customer, product, inventory,
+      and vendor data used by the staging models in milestone 1. These tables
+      hold current-state business entities at their source-system grain and are
+      standardized downstream for joins across customers, products, and orders.
+    tables:
+      - name: inventory_prod_db
+        description: >
+          Raw inventory balances from Adventure DB. Grain: one row per product
+          storage location record. Source for stg_adventure_db__inventory,
+          which joins to product models via product_id for inventory analysis.
+      - name: customer_prod_db
+        description: >
+          Raw customer master records from Adventure DB. Grain: one row per
+          customer. Source for stg_adventure_db__customers and downstream joins
+          on customer_id across orders, campaign events, and web activity.
+      - name: product_vendor_prod_db
+        description: >
+          Raw bridge table relating products to vendors in Adventure DB. Grain:
+          one row per product-vendor relationship. Used downstream to connect
+          products to supplier attributes through product_id and vendor_id.
+      - name: product_prod_db
+        description: >
+          Raw product catalog from Adventure DB. Grain: one row per product.
+          Source for stg_adventure_db__products and related models that analyze
+          product assortment, pricing, and inventory via product_id.
+      - name: vendor_prod_db
+        description: >
+          Raw vendor master data from Adventure DB. Grain: one row per vendor.
+          Source for stg_adventure_db__vendors and supplier analysis joined via
+          vendor_id.
+  - name: ecom_source
+    database: is566
+    schema: old_mktg
+    description: >
+      Legacy e-commerce and marketing source schema containing raw order and
+      campaign event extracts. These tables represent transactional events at
+      their native source grain and feed staging models for sales and campaign
+      attribution analysis.
+    tables:
+      - name: email_campaign_raw
+        description: >
+          Raw legacy email marketing event feed. Grain: one row per campaign
+          event. Upstream source for email campaign staging, where events join
+          to customers via customer_id and to orders when a conversion occurs.
+      - name: purchase_order_raw
+        description: >
+          Raw purchase order records from the e-commerce domain. Grain: one row
+          per purchase order. Used for procurement-style order tracking and
+          related downstream transformations.
+      - name: sales_order_raw
+        description: >
+          Raw customer sales order records from the e-commerce system. Grain:
+          one row per sales order. Source for sales-order staging and
+          downstream joins to customers and campaign attribution models.
+  - name: new_mktg
+    database: is566
+    schema: "{{ 'new_mktg_dev' if target.name == 'dev' else 'new_mktg_prod' }}"
+    description: >
+      Replacement marketing source schema for newer email marketing event data.
+      These records are combined with the legacy campaign feed to create a
+      unified campaign event model for engagement and conversion reporting.
+    tables:
+      - name: email_mktg_raw
+        description: >
+          Raw email marketing events from the newer marketing platform. Grain:
+          one row per marketing event. Combined with legacy email campaign data
+          downstream to produce the deduplicated stg_ecom__email_campaigns
+          model.

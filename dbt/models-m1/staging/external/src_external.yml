@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  - name: external
+    database: BOA_DB
+    schema: RAW_EXT
+    description: >
+      External raw data loaded outside the core Adventure DB and e-commerce
+      systems. These tables contain operational events and order detail feeds
+      at their source-system grain and support downstream formatting, chat
+      analytics, and line-item level order modeling.
+    tables:
+      - name: orders_raw
+        description: >
+          Raw external order header records. Grain: one row per order. Used
+          downstream with order_details_raw via order identifiers to produce
+          cleaned external order models.
+      - name: order_details_raw
+        description: >
+          Raw external order line detail records. Grain: one row per order line
+          item. Join to orders_raw via the source order identifier to add order
+          header context and support line-item revenue analysis.
+      - name: chat_logs_raw
+        description: >
+          Raw customer support chat logs from an external system. Grain: one
+          row per chat session record. Used downstream for chat analytics and
+          can be joined to customer models when a customer identifier is
+          available.

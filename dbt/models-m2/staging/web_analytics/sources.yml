@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  - name: raw_ext
+    schema: raw_ext
+    description: >
+      Raw external web analytics source loaded from the website tracking API.
+      These records represent customer and product interaction events at event
+      grain and feed staging and intermediate models used for clickstream and
+      customer behavior analysis.
+    tables:
+      - name: web_analytics_raw
+        description: >
+          Raw web analytics events ingested from the tracking API by Prefect.
+          Grain: one row per tracked website event. Source for
+          stg_web_analytics, which standardizes event fields and joins to
+          customers downstream via customer_id.
+        
+        loaded_at_field: event_timestamp
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+          
+        columns:
+          - name: customer_id
+            description: >
+              Identifier of the customer associated with the tracked web event.
+              Foreign key to stg_adventure_db__customers.customer_id. Used to
+              connect clickstream activity to customer profile data.
+            tests:
+              - not_null
+
+          - name: event_type
+            description: >
+              Business action recorded for the website interaction. Values:
+              page_view, click, add_to_cart, purchase. Used to distinguish
+              browsing behavior from conversion events.
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['page_view', 'click', 'add_to_cart', 'purchase']
+
+          - name: session_id
+            description: >
+              Identifier for the browsing session that groups multiple web
+              events from the same visit. Not a primary key because a single
+              session can contain many tracked events.
+            tests:
+              - not_null
+          - name: event_timestamp
+            description: >
+              Timestamp when the website interaction occurred, stored in UTC.
+              Used for freshness checks, event sequencing, and time-based
+              behavioral analysis.

@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_web_analytics
+    description: >
+      Each row represents a single web analytics event from the REST API
+      tracking feed after type standardization and light cleaning. Grain: one
+      row per tracked website event. Join to
+      stg_adventure_db__customers via customer_id for customer attributes and
+      use product_id to connect browsing behavior to product performance
+      analysis.
+    columns:
+      - name: customer_id
+        description: >
+          Identifier of the customer who generated the website event. Foreign
+          key to stg_adventure_db__customers.customer_id. Use this join to add
+          customer name, geography, and account details to clickstream events.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_adventure_db__customers')
+              field: customer_id
+      - name: product_id
+        description: >
+          Identifier of the product associated with the event when the action
+          was product-specific. Foreign key to
+          stg_adventure_db__products.product_id. Use this join to analyze
+          product views, carts, and purchases by product.
+        tests:
+          - not_null
+      - name: session_id
+        description: >
+          Identifier for the browsing session in which this event occurred. A
+          single session_id can appear on multiple rows because one session can
+          generate many events across a customer visit.
+        tests:
+          - not_null
+      - name: event_timestamp
+        description: >
+          Timestamp when the tracked website interaction occurred, stored in
+          UTC. Used to order events within a session and support hourly or
+          daily trend analysis.
+        tests:
+          - not_null
